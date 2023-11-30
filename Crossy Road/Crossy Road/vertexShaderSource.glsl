@@ -5,7 +5,7 @@ layout (location = 0) in vec3 vPos;
 layout (location = 1) in vec3 vNormal;
 layout (location = 2) in vec2 vTexCord;
 
-out vec3 FragPos; //--- °´Ã¼ÀÇ À§Ä¡°ªÀ» ÇÁ·¡±×¸ÕÆ® ¼¼ÀÌ´õ·Î º¸³½´Ù.
+out vec3 FragPos; //--- ê°ì²´ì˜ ìœ„ì¹˜ê°’ì„ í”„ë˜ê·¸ë¨¼íŠ¸ ì„¸ì´ë”ë¡œ ë³´ë‚¸ë‹¤.
 out vec3 Normal;
 out vec2 TexCord;
 

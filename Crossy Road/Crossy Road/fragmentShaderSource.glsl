@@ -1,6 +1,6 @@
 #version 330 core
 
-in vec3 FragPos; //--- ³ë¸Ö°ªÀ» °è»êÇÏ±â À§ÇØ °´Ã¼ÀÇ À§Ä¡°ªÀ» ¹öÅØ½º ¼¼ÀÌ´õ¿¡¼­ ¹Ş¾Æ¿Â´Ù.
+in vec3 FragPos; //--- ë…¸ë©€ê°’ì„ ê³„ì‚°í•˜ê¸° ìœ„í•´ ê°ì²´ì˜ ìœ„ì¹˜ê°’ì„ ë²„í…ìŠ¤ ì„¸ì´ë”ì—ì„œ ë°›ì•„ì˜¨ë‹¤.
 in vec3 Normal;
 in vec2 TexCord;
 out vec4 FragColor;
@@ -13,21 +13,21 @@ uniform sampler2D outTexture;
 
 void main ()
 {
-	float ambientLight = 0.3; //--- ÁÖº¯ Á¶¸í ¼¼±â
-	vec3 ambient = ambientLight * lightColor; //--- ÁÖº¯ Á¶¸í °ª
+	float ambientLight = 0.3; //--- ì£¼ë³€ ì¡°ëª… ì„¸ê¸°
+	vec3 ambient = ambientLight * lightColor; //--- ì£¼ë³€ ì¡°ëª… ê°’
 
 	vec3 normalVector = normalize(Normal);
 	vec3 lightDir = normalize(lightPos-FragPos);
-	float diffuseLight = max(dot(normalVector, lightDir), 0.0); //--- N°ú LÀÇ ³»Àû °ªÀ¸·Î °­µµ Á¶Àı: À½¼ö ¹æÁö
-	vec3 diffuse = diffuseLight * lightColor; //--- »ê¶õ ¹İ»ç Á¶¸í°ª: »ê¶õ¹İ»ç°ª * Á¶¸í»ö»ó°ª
+	float diffuseLight = max(dot(normalVector, lightDir), 0.0); //--- Nê³¼ Lì˜ ë‚´ì  ê°’ìœ¼ë¡œ ê°•ë„ ì¡°ì ˆ: ìŒìˆ˜ ë°©ì§€
+	vec3 diffuse = diffuseLight * lightColor; //--- ì‚°ë€ ë°˜ì‚¬ ì¡°ëª…ê°’: ì‚°ë€ë°˜ì‚¬ê°’ * ì¡°ëª…ìƒ‰ìƒê°’
 
 	vec3 viewDir = normalize(viewPos - FragPos);
-	vec3 reflectDir = reflect(-lightDir, normalVector); //--- ¹İ»ç ¹æÇâ: reflect ÇÔ¼ö - ÀÔ»ç º¤ÅÍÀÇ ¹İ»ç ¹æÇâ °è»ê
-	float specularLight = pow(max(dot(viewDir, reflectDir), 0.0),256); //--- V¿Í RÀÇ ³»Àû°ªÀ¸·Î °­µµ Á¶Àı: À½¼ö ¹æÁö
-	vec3 specular = specularLight * lightColor; //--- °Å¿ï ¹İ»ç Á¶¸í°ª: °Å¿ï¹İ»ç°ª * Á¶¸í»ö»ó°ª
+	vec3 reflectDir = reflect(-lightDir, normalVector); //--- ë°˜ì‚¬ ë°©í–¥: reflect í•¨ìˆ˜ - ì…ì‚¬ ë²¡í„°ì˜ ë°˜ì‚¬ ë°©í–¥ ê³„ì‚°
+	float specularLight = pow(max(dot(viewDir, reflectDir), 0.0),256); //--- Vì™€ Rì˜ ë‚´ì ê°’ìœ¼ë¡œ ê°•ë„ ì¡°ì ˆ: ìŒìˆ˜ ë°©ì§€
+	vec3 specular = specularLight * lightColor; //--- ê±°ìš¸ ë°˜ì‚¬ ì¡°ëª…ê°’: ê±°ìš¸ë°˜ì‚¬ê°’ * ì¡°ëª…ìƒ‰ìƒê°’
 
-	vec3 result = (ambient+diffuse + specular) * objectColor; //--- ÃÖÁ¾ Á¶¸í ¼³Á¤µÈ ÇÈ¼¿ »ö»ó: (ÁÖº¯+»ê¶õ¹İ»ç+°Å¿ï¹İ»çÁ¶¸í)*°´Ã¼ »ö»ó
+	vec3 result = (ambient+diffuse + specular) * objectColor; //--- ìµœì¢… ì¡°ëª… ì„¤ì •ëœ í”½ì…€ ìƒ‰ìƒ: (ì£¼ë³€+ì‚°ë€ë°˜ì‚¬+ê±°ìš¸ë°˜ì‚¬ì¡°ëª…)*ê°ì²´ ìƒ‰ìƒ
 
-	FragColor = vec4 (result, 1.0f); // --- ÇÈ¼¿ »öÀ» Ãâ·Â
+	FragColor = vec4 (result, 1.0f); // --- í”½ì…€ ìƒ‰ì„ ì¶œë ¥
 	FragColor = texture(outTexture, TexCord)*FragColor;
 } 

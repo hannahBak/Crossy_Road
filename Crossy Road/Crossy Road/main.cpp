@@ -88,6 +88,8 @@ int main(int argc, char** argv)
     glutReshapeFunc(Reshape);
     glutMainLoop();
 }
+float objectPositionX = 0.0f;  // Initial position of the object
+float objectSpeed = 0.01f;
 
 GLvoid drawScene()
 {
@@ -97,6 +99,7 @@ GLvoid drawScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+
 
     //Α¶Έν
     shaderID.setVec3("lightPos", 0.f, 3.f, 0.f);
@@ -119,17 +122,26 @@ GLvoid drawScene()
 
 
     if (dicePyramidToggle == 0) {
+        // Update object position
+        objectPositionX += objectSpeed;
+
+        // Wrap the object around when it goes beyond the screen
+        if (objectPositionX > MAP_SIZE) {
+            objectPositionX = -MAP_SIZE;
+        }
+
         glBindTexture(GL_TEXTURE_2D, Cube_Load.texture);
         glBindVertexArray(VAO_Cube);
         glm::mat4 PlayerTransform = glm::mat4(1.0f);
-        PlayerTransform = glm::scale(PlayerTransform, glm::vec3(0.01f, 0.01f, 0.01f));
+        PlayerTransform = glm::translate(PlayerTransform, glm::vec3(-objectPositionX, 0.0f, 0.0f));  // Translate object
+        PlayerTransform = glm::rotate(PlayerTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+        PlayerTransform = glm::scale(PlayerTransform, glm::vec3(0.005f, 0.005f, 0.005f));
         PlayerTransform = glm::rotate(PlayerTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
         PlayerTransform = glm::rotate(PlayerTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
         shaderID.setMat4("modelTransform", PlayerTransform);
         shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
         glDrawArrays(GL_TRIANGLES, 0, Cube);
     }
-   
 
     glutSwapBuffers();
 }
