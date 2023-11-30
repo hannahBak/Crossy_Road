@@ -6,11 +6,11 @@
 #include "load_OBJ.h"
 
 Objectload Cube_Load;
-GLint Cube = Cube_Load.loadObj("cube.obj");
+GLint Cube = Cube_Load.loadObj("car.obj");
 
 void initTextures() {
 
-    Cube_Load.InitTexture("cube_TEX.jpg");
+    Cube_Load.InitTexture("pyramid_TEX.jpg");
 
 }
 
@@ -122,7 +122,7 @@ GLvoid drawScene()
         glBindTexture(GL_TEXTURE_2D, Cube_Load.texture);
         glBindVertexArray(VAO_Cube);
         glm::mat4 PlayerTransform = glm::mat4(1.0f);
-        PlayerTransform = glm::scale(PlayerTransform, glm::vec3(0.002f, 0.002f, 0.002f));
+        PlayerTransform = glm::scale(PlayerTransform, glm::vec3(0.01f, 0.01f, 0.01f));
         PlayerTransform = glm::rotate(PlayerTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
         PlayerTransform = glm::rotate(PlayerTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
         shaderID.setMat4("modelTransform", PlayerTransform);
