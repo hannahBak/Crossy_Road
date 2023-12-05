@@ -5,17 +5,22 @@
 #include "shader.h"
 #include "load_OBJ.h"
 
-Objectload Cube_Load;
-GLint Cube = Cube_Load.loadObj("car1.obj");
+Objectload Car_Load;
+GLint Car = Car_Load.loadObj("car1.obj");
+
+Objectload Bbyongari_Load;
+GLint Bbyongari = Bbyongari_Load.loadObj("bbyongari.obj");
 
 void initTextures() {
 
-    Cube_Load.InitTexture("Car_TEX.jpg");
+    Car_Load.InitTexture("Car_TEX.jpg");
+    Bbyongari_Load.InitTexture("Bbyongari_C.jpg");
+
 
 }
 
-GLuint VAO_Cube, VBO_Cube_VERTEX, VBO_Cube_NORMAL, VBO_Cube_UV;
-GLuint VAO_Cone, VBO_Cone_VERTEX, VBO_Cone_NORMAL, VBO_Cone_UV;
+GLuint VAO_Car, VBO_Car_VERTEX, VBO_Car_NORMAL, VBO_Car_UV;
+GLuint VAO_Bbyongari, VBO_Bbyongari_VERTEX, VBO_Bbyongari_NORMAL, VBO_Bbyongari_UV;
 
 int timer{ 0 };
 
@@ -30,25 +35,47 @@ float rotateY = 0.f;
 
 void InitBuffer() {
 
-    //cube
-    glGenVertexArrays(1, &VAO_Cube);
-    glBindVertexArray(VAO_Cube);
+    //car
+    glGenVertexArrays(1, &VAO_Car);
+    glBindVertexArray(VAO_Car);
     //vertex
-    glGenBuffers(1, &VBO_Cube_VERTEX);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_Cube_VERTEX);
-    glBufferData(GL_ARRAY_BUFFER, Cube_Load.outvertex.size() * sizeof(glm::vec3), &Cube_Load.outvertex[0], GL_STATIC_DRAW);
+    glGenBuffers(1, &VBO_Car_VERTEX);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Car_VERTEX);
+    glBufferData(GL_ARRAY_BUFFER, Car_Load.outvertex.size() * sizeof(glm::vec3), &Car_Load.outvertex[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
     glEnableVertexAttribArray(0);
     //normal
-    glGenBuffers(1, &VBO_Cube_NORMAL);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_Cube_NORMAL);
-    glBufferData(GL_ARRAY_BUFFER, Cube_Load.outnormal.size() * sizeof(glm::vec3), &Cube_Load.outnormal[0], GL_STATIC_DRAW);
+    glGenBuffers(1, &VBO_Car_NORMAL);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Car_NORMAL);
+    glBufferData(GL_ARRAY_BUFFER, Car_Load.outnormal.size() * sizeof(glm::vec3), &Car_Load.outnormal[0], GL_STATIC_DRAW);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
     glEnableVertexAttribArray(1);
     //uv
-    glGenBuffers(1, &VBO_Cube_UV);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_Cube_UV);
-    glBufferData(GL_ARRAY_BUFFER, Cube_Load.outuv.size() * sizeof(glm::vec2), &Cube_Load.outuv[0], GL_STATIC_DRAW);
+    glGenBuffers(1, &VBO_Car_UV);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Car_UV);
+    glBufferData(GL_ARRAY_BUFFER, Car_Load.outuv.size() * sizeof(glm::vec2), &Car_Load.outuv[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    glEnableVertexAttribArray(2);
+
+    //Bbyongari
+    glGenVertexArrays(1, &VAO_Bbyongari);
+    glBindVertexArray(VAO_Bbyongari);
+    //vertex
+    glGenBuffers(1, &VBO_Bbyongari_VERTEX);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Bbyongari_VERTEX);
+    glBufferData(GL_ARRAY_BUFFER, Bbyongari_Load.outvertex.size() * sizeof(glm::vec3), &Bbyongari_Load.outvertex[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    glEnableVertexAttribArray(0);
+    //normal
+    glGenBuffers(1, &VBO_Bbyongari_NORMAL);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Bbyongari_NORMAL);
+    glBufferData(GL_ARRAY_BUFFER, Bbyongari_Load.outnormal.size() * sizeof(glm::vec3), &Bbyongari_Load.outnormal[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    glEnableVertexAttribArray(1);
+    //uv
+    glGenBuffers(1, &VBO_Bbyongari_UV);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Bbyongari_UV);
+    glBufferData(GL_ARRAY_BUFFER, Bbyongari_Load.outuv.size() * sizeof(glm::vec2), &Bbyongari_Load.outuv[0], GL_STATIC_DRAW);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     glEnableVertexAttribArray(2);
 
@@ -94,7 +121,7 @@ float objectSpeed = 0.01f;
 GLvoid drawScene()
 {
     shaderID.use();
-    glBindVertexArray(VAO_Cube);
+    glBindVertexArray(VAO_Car);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
@@ -130,8 +157,8 @@ GLvoid drawScene()
             objectPositionX = -MAP_SIZE;
         }
 
-        glBindTexture(GL_TEXTURE_2D, Cube_Load.texture);
-        glBindVertexArray(VAO_Cube);
+        glBindTexture(GL_TEXTURE_2D, Car_Load.texture);
+        glBindVertexArray(VAO_Car);
         glm::mat4 PlayerTransform = glm::mat4(1.0f);
         PlayerTransform = glm::translate(PlayerTransform, glm::vec3(-objectPositionX, 0.0f, 0.0f));  // Translate object
         PlayerTransform = glm::rotate(PlayerTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
@@ -140,8 +167,23 @@ GLvoid drawScene()
         PlayerTransform = glm::rotate(PlayerTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
         shaderID.setMat4("modelTransform", PlayerTransform);
         shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-        glDrawArrays(GL_TRIANGLES, 0, Cube);
+        glDrawArrays(GL_TRIANGLES, 0, Car);
+
+
+        glBindTexture(GL_TEXTURE_2D, Bbyongari_Load.texture);
+        glBindVertexArray(VAO_Bbyongari);
+        glm::mat4 BbyongariTransform = glm::mat4(1.0f);
+        BbyongariTransform = glm::translate(BbyongariTransform, glm::vec3(0.0f, 0.0f, 0.0f));  // Translate object
+        BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+        BbyongariTransform = glm::scale(BbyongariTransform, glm::vec3(0.05f, 0.05f, 0.05f));
+        BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+        BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+        shaderID.setMat4("modelTransform", BbyongariTransform);
+        shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+        glDrawArrays(GL_TRIANGLES, 0, Bbyongari);
     }
+
+
 
     glutSwapBuffers();
 }
