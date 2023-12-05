@@ -11,18 +11,24 @@ GLint Car = Car_Load.loadObj("car1.obj");
 Objectload Bbyongari_Load;
 GLint Bbyongari = Bbyongari_Load.loadObj("bbyongari.obj");
 
+Objectload SantaChicken_Load;
+GLint SantaChicken = SantaChicken_Load.loadObj("santa_chicken.obj");
+
 
 
 void initTextures() {
 
     Car_Load.InitTexture("Car_TEX.jpg");
     Bbyongari_Load.InitTexture("Bbyongari_C.jpg");
+    SantaChicken_Load.InitTexture("santa_chicken_C.jpg");
 
 
 }
 
 GLuint VAO_Car, VBO_Car_VERTEX, VBO_Car_NORMAL, VBO_Car_UV;
 GLuint VAO_Bbyongari, VBO_Bbyongari_VERTEX, VBO_Bbyongari_NORMAL, VBO_Bbyongari_UV;
+GLuint VAO_SantaChicken, VBO_SantaChicken_VERTEX, VBO_SantaChicken_NORMAL, VBO_SantaChicken_UV;
+
 
 int timer{ 0 };
 
@@ -78,6 +84,28 @@ void InitBuffer() {
     glGenBuffers(1, &VBO_Bbyongari_UV);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_Bbyongari_UV);
     glBufferData(GL_ARRAY_BUFFER, Bbyongari_Load.outuv.size() * sizeof(glm::vec2), &Bbyongari_Load.outuv[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    glEnableVertexAttribArray(2);
+
+    //SantaChicken
+    glGenVertexArrays(1, &VAO_SantaChicken);
+    glBindVertexArray(VAO_SantaChicken);
+    //vertex
+    glGenBuffers(1, &VBO_SantaChicken_VERTEX);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_SantaChicken_VERTEX);
+    glBufferData(GL_ARRAY_BUFFER, SantaChicken_Load.outvertex.size() * sizeof(glm::vec3), &SantaChicken_Load.outvertex[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    glEnableVertexAttribArray(0);
+    //normal
+    glGenBuffers(1, &VBO_SantaChicken_NORMAL);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_SantaChicken_NORMAL);
+    glBufferData(GL_ARRAY_BUFFER, SantaChicken_Load.outnormal.size() * sizeof(glm::vec3), &SantaChicken_Load.outnormal[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    glEnableVertexAttribArray(1);
+    //uv
+    glGenBuffers(1, &VBO_SantaChicken_UV);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_SantaChicken_UV);
+    glBufferData(GL_ARRAY_BUFFER, SantaChicken_Load.outuv.size() * sizeof(glm::vec2), &SantaChicken_Load.outuv[0], GL_STATIC_DRAW);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     glEnableVertexAttribArray(2);
 
@@ -184,7 +212,18 @@ GLvoid drawScene()
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
     glDrawArrays(GL_TRIANGLES, 0, Bbyongari);
     
-       
+    
+     glBindTexture(GL_TEXTURE_2D, SantaChicken_Load.texture);
+    glBindVertexArray(VAO_SantaChicken);
+    glm::mat4 SantaChickenTransform = glm::mat4(1.0f);
+    SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.0f, 0.0f, moveforward));  // Translate object
+    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+    SantaChickenTransform = glm::scale(SantaChickenTransform, glm::vec3(0.05f, 0.05f, 0.05f));
+    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+    shaderID.setMat4("modelTransform", SantaChickenTransform);
+    shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+    glDrawArrays(GL_TRIANGLES, 0, SantaChicken);
     
 
 
