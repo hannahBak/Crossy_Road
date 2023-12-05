@@ -6,11 +6,11 @@
 #include "load_OBJ.h"
 
 Objectload Cube_Load;
-GLint Cube = Cube_Load.loadObj("car.obj");
+GLint Cube = Cube_Load.loadObj("car1.obj");
 
 void initTextures() {
 
-    Cube_Load.InitTexture("pyramid_TEX.jpg");
+    Cube_Load.InitTexture("Car_TEX.jpg");
 
 }
 
