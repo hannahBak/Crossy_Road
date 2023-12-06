@@ -13,12 +13,12 @@ uniform sampler2D outTexture;
 
 void main ()
 {
-	float ambientLight = 0.3; //--- 주변 조명 세기
+	float ambientLight = 0.2; //--- 주변 조명 세기
 	vec3 ambient = ambientLight * lightColor; //--- 주변 조명 값
 
 	vec3 normalVector = normalize(Normal);
 	vec3 lightDir = normalize(lightPos-FragPos);
-	float diffuseLight = max(dot(normalVector, lightDir), 0.0); //--- N과 L의 내적 값으로 강도 조절: 음수 방지
+	float diffuseLight = max(dot(normalVector, lightDir), 0.0) * 0.5; //--- N과 L의 내적 값으로 강도 조절: 음수 방지
 	vec3 diffuse = diffuseLight * lightColor; //--- 산란 반사 조명값: 산란반사값 * 조명색상값
 
 	vec3 viewDir = normalize(viewPos - FragPos);
