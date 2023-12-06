@@ -149,7 +149,7 @@ int main(int argc, char** argv)
 }
 float objectPositionX = -0.5f;  // Initial position of the object
 float objectSpeed = 0.01f;
-float moveforward = 0.5f;
+float moveforward = 1.0f;
 
 GLvoid drawScene()
 {
@@ -172,8 +172,8 @@ GLvoid drawScene()
 
 
     glm::mat4 vTransform = glm::mat4(1.0f);
-    glm::vec3 cameraPos = glm::vec3(0, 1.f, 1.f);
-    glm::vec3 cameraDirection = glm::vec3(0, 0.0f, 0);
+    glm::vec3 cameraPos = glm::vec3(0, 0.2f, moveforward + 0.2);
+    glm::vec3 cameraDirection = glm::vec3(0, 0.0f, moveforward - 0.3);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     vTransform = glm::lookAt(cameraPos, cameraDirection, cameraUp);
     shaderID.setMat4("viewTransform", vTransform);
@@ -216,8 +216,8 @@ GLvoid drawScene()
      glBindTexture(GL_TEXTURE_2D, SantaChicken_Load.texture);
     glBindVertexArray(VAO_SantaChicken);
     glm::mat4 SantaChickenTransform = glm::mat4(1.0f);
-    SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.1f, 0.0f, moveforward));  // Translate object
-    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(-90.0f), glm::vec3(0, 1, 0));
+    SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.1f, 0.0f, -1.f));  // Translate object
+    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
     SantaChickenTransform = glm::scale(SantaChickenTransform, glm::vec3(0.05f, 0.05f, 0.05f));
     SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
     SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
@@ -262,10 +262,10 @@ GLvoid SpecialKeyBoard(int key, int x, int y)
     {
     default:
     case GLUT_KEY_UP:
-        moveforward -= 0.05;
+        moveforward -= 0.1;
         break;
     case GLUT_KEY_DOWN:
-        moveforward += 0.05;
+        moveforward += 0.1;
         break;
     case GLUT_KEY_LEFT:
        
