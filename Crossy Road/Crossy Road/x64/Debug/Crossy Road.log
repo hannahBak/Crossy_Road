@@ -1,10 +1,18 @@
 ﻿  main.cpp
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(108,32): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(109,32): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(110,32): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(141,26): warning C4267: 'return': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(132,15): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(230,22): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(306,27): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(309,27): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
-  Crossy Road.vcxproj -> C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\x64\Debug\Crossy Road.exe
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(108,32): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(109,32): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(110,32): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\load_OBJ.h(141,26): warning C4267: 'return': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\main.cpp(132,15): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\main.cpp(230,22): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\main.cpp(306,27): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\Crossy Road\main.cpp(309,27): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+  Crossy Road.vcxproj -> C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy Road\x64\Debug\Crossy Road.exe
