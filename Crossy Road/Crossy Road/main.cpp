@@ -40,6 +40,14 @@ bool rotateYOn = false;
 float rotateX = 0.f;
 float rotateY = 0.f;
 
+struct Mycar {
+    int direct = 0;
+    float size;
+    float speed = 0.01f;
+    float objectPositionX = -0.5f;
+};
+
+Mycar mycar[10];
 
 void InitBuffer() {
 
@@ -147,8 +155,7 @@ int main(int argc, char** argv)
     glutReshapeFunc(Reshape);
     glutMainLoop();
 }
-float objectPositionX = -0.5f;  // Initial position of the object
-float objectSpeed = 0.01f;
+
 float moveforward = 1.0f;
 
 GLvoid drawScene()
@@ -174,32 +181,66 @@ GLvoid drawScene()
     glm::mat4 vTransform = glm::mat4(1.0f);
     glm::vec3 cameraPos = glm::vec3(0, 0.2f, moveforward + 0.2);
     glm::vec3 cameraDirection = glm::vec3(0, 0.0f, moveforward - 0.3);
-    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 cameraUp = glm::vec3(0.0f, 2.0f, 0.0f);
     vTransform = glm::lookAt(cameraPos, cameraDirection, cameraUp);
     shaderID.setMat4("viewTransform", vTransform);
     shaderID.setVec3("viewPos", 0, 0, 0);
 
 
-
-    objectPositionX += objectSpeed;
-
-    if (objectPositionX > 0.5)
+    // 자동차
+    for (int i = 0; i < 5; ++i)
     {
-        objectPositionX = -1.0;
+
+        if (mycar[i].direct == 0)
+        {
+            mycar[i].objectPositionX += mycar[i].speed;
+            if (mycar[i].objectPositionX > 0.5)
+            {
+                mycar[i].objectPositionX = -1.0;
+
+            }
+        }
+
+        else
+        {
+            mycar[i].objectPositionX -= mycar[i].speed;
+            if (mycar[i].objectPositionX < -0.5)
+            {
+                mycar[i].objectPositionX = 1.0;
+
+            }
+        }
     }
+    
+
+    mycar[0].direct = 0;
     glBindTexture(GL_TEXTURE_2D, Car_Load.texture);
     glBindVertexArray(VAO_Car);
-    glm::mat4 PlayerTransform = glm::mat4(1.0f);
-    PlayerTransform = glm::translate(PlayerTransform, glm::vec3(-objectPositionX, 0.0f, 0.0f));  // Translate object
-    PlayerTransform = glm::rotate(PlayerTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-    PlayerTransform = glm::scale(PlayerTransform, glm::vec3(0.005f, 0.005f, 0.005f));
-    PlayerTransform = glm::rotate(PlayerTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
-    PlayerTransform = glm::rotate(PlayerTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
-    shaderID.setMat4("modelTransform", PlayerTransform);
+    glm::mat4 car1Transform = glm::mat4(1.0f);
+    car1Transform = glm::translate(car1Transform, glm::vec3(-mycar[0].objectPositionX, 0.0f, 0.0f));  // Translate object
+    car1Transform = glm::rotate(car1Transform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+    car1Transform = glm::scale(car1Transform, glm::vec3(0.005f, 0.005f, 0.005f));
+    car1Transform = glm::rotate(car1Transform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+    car1Transform = glm::rotate(car1Transform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+    shaderID.setMat4("modelTransform", car1Transform);
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
     glDrawArrays(GL_TRIANGLES, 0, Car);
 
+    mycar[1].direct = 1;
+    mycar[1].speed = 0.02;
+    glBindTexture(GL_TEXTURE_2D, Car_Load.texture);
+    glBindVertexArray(VAO_Car);
+    glm::mat4 car2Transform = glm::mat4(1.0f);
+    car2Transform = glm::translate(car2Transform, glm::vec3(-mycar[1].objectPositionX, 0.0f, 0.5f));  // Translate object
+    car2Transform = glm::rotate(car2Transform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+    car2Transform = glm::scale(car2Transform, glm::vec3(0.005f, 0.005f, 0.005f));
+    car2Transform = glm::rotate(car2Transform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+    car2Transform = glm::rotate(car2Transform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+    shaderID.setMat4("modelTransform", car2Transform);
+    shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+    glDrawArrays(GL_TRIANGLES, 0, Car);
 
+    // 병아리
     glBindTexture(GL_TEXTURE_2D, Bbyongari_Load.texture);
     glBindVertexArray(VAO_Bbyongari);
     glm::mat4 BbyongariTransform = glm::mat4(1.0f);
@@ -212,8 +253,8 @@ GLvoid drawScene()
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
     glDrawArrays(GL_TRIANGLES, 0, Bbyongari);
     
-    
-     glBindTexture(GL_TEXTURE_2D, SantaChicken_Load.texture);
+    // 산타치킨
+    glBindTexture(GL_TEXTURE_2D, SantaChicken_Load.texture);
     glBindVertexArray(VAO_SantaChicken);
     glm::mat4 SantaChickenTransform = glm::mat4(1.0f);
     SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.1f, 0.0f, -1.f));  // Translate object
