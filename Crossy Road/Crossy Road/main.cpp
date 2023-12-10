@@ -106,7 +106,7 @@ void InitBuffer() {
     glGenVertexArrays(1, &VAO_SantaChicken);
     glBindVertexArray(VAO_SantaChicken);
     //vertex
-    glGenBuffers(1, &VBO_Tree_VERTEX);
+    glGenBuffers(1, &VBO_SantaChicken_VERTEX);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_SantaChicken_VERTEX);
     glBufferData(GL_ARRAY_BUFFER, SantaChicken_Load.outvertex.size() * sizeof(glm::vec3), &SantaChicken_Load.outvertex[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
@@ -124,7 +124,7 @@ void InitBuffer() {
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     glEnableVertexAttribArray(2);
 
-    /*//Tree
+    //Tree
     glGenVertexArrays(1, &VAO_Tree);
     glBindVertexArray(VAO_Tree);
     //vertex
@@ -144,7 +144,7 @@ void InitBuffer() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO_Tree_UV);
     glBufferData(GL_ARRAY_BUFFER, Tree_Load.outuv.size() * sizeof(glm::vec2), &Tree_Load.outuv[0], GL_STATIC_DRAW);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
-    glEnableVertexAttribArray(2);*/
+    glEnableVertexAttribArray(2);
 
    
 }
@@ -295,18 +295,18 @@ GLvoid drawScene()
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
     glDrawArrays(GL_TRIANGLES, 0, SantaChicken);
 
-    /*// 트리
+    // 트리
     glBindTexture(GL_TEXTURE_2D, Tree_Load.texture);
     glBindVertexArray(VAO_Tree);
     glm::mat4 TreeTransform = glm::mat4(1.0f);
     TreeTransform = glm::translate(TreeTransform, glm::vec3(0.1f, 0.0f, 0.0f));  // Translate object
     TreeTransform = glm::rotate(TreeTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-    TreeTransform = glm::scale(TreeTransform, glm::vec3(0.005f, 0.005f, 0.005f));
+    TreeTransform = glm::scale(TreeTransform, glm::vec3(0.05f, 0.05f, 0.05f));
     TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
     TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
     shaderID.setMat4("modelTransform", TreeTransform);
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-    glDrawArrays(GL_TRIANGLES, 0, Tree);*/
+    glDrawArrays(GL_TRIANGLES, 0, Tree);
     
 
 
