@@ -301,7 +301,7 @@ GLvoid drawScene()
     glm::mat4 TreeTransform = glm::mat4(1.0f);
     TreeTransform = glm::translate(TreeTransform, glm::vec3(0.1f, 0.0f, 0.0f));  // Translate object
     TreeTransform = glm::rotate(TreeTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-    TreeTransform = glm::scale(TreeTransform, glm::vec3(0.05f, 0.05f, 0.05f));
+    TreeTransform = glm::scale(TreeTransform, glm::vec3(0.005f, 0.005f, 0.005f));
     TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
     TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
     shaderID.setMat4("modelTransform", TreeTransform);
