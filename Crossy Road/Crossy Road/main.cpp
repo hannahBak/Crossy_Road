@@ -124,7 +124,7 @@ void InitBuffer() {
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     glEnableVertexAttribArray(2);
 
-    //Tree
+    /*//Tree
     glGenVertexArrays(1, &VAO_Tree);
     glBindVertexArray(VAO_Tree);
     //vertex
@@ -144,7 +144,7 @@ void InitBuffer() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO_Tree_UV);
     glBufferData(GL_ARRAY_BUFFER, Tree_Load.outuv.size() * sizeof(glm::vec2), &Tree_Load.outuv[0], GL_STATIC_DRAW);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
-    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(2);*/
 
    
 }
@@ -295,7 +295,7 @@ GLvoid drawScene()
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
     glDrawArrays(GL_TRIANGLES, 0, SantaChicken);
 
-    // 트리
+    /*// 트리
     glBindTexture(GL_TEXTURE_2D, Tree_Load.texture);
     glBindVertexArray(VAO_Tree);
     glm::mat4 TreeTransform = glm::mat4(1.0f);
@@ -306,7 +306,7 @@ GLvoid drawScene()
     TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
     shaderID.setMat4("modelTransform", TreeTransform);
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-    glDrawArrays(GL_TRIANGLES, 0, Tree);
+    glDrawArrays(GL_TRIANGLES, 0, Tree);*/
     
 
 
