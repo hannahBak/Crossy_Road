@@ -185,6 +185,12 @@ int main(int argc, char** argv)
     glutMainLoop();
 }
 
+bool checkCollision(const glm::vec3& min1, const glm::vec3& max1, const glm::vec3& min2, const glm::vec3& max2) {
+    return (min1.x <= max2.x && max1.x >= min2.x) &&
+        (min1.y <= max2.y && max1.y >= min2.y) &&
+        (min1.z <= max2.z && max1.z >= min2.z);
+}
+
 float moveforward = 1.0f;
 
 GLvoid drawScene()
@@ -215,11 +221,23 @@ GLvoid drawScene()
     shaderID.setMat4("viewTransform", vTransform);
     shaderID.setVec3("viewPos", 0, 0, 0);
 
+    // Get the bounding box for bbyongari
+    glm::vec3 bbyongariMin = glm::vec3(0.0f, 0.0f, moveforward - 0.05f);
+    glm::vec3 bbyongariMax = glm::vec3(0.05f, 0.05f, moveforward + 0.05f);
 
     // ÀÚµ¿Â÷
     for (int i = 0; i < 5; ++i)
     {
 
+        glm::vec3 carMin = glm::vec3(-mycar[i].objectPositionX - 0.005f, -0.005f, -0.005f);
+        glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.005f, 0.005f, 0.005f);
+
+        // Check for collision between the current car[i] and bbyongari
+        if (checkCollision(carMin, carMax, bbyongariMin, bbyongariMax)) {
+            // Collision occurred, handle it as needed
+            // For example, stop the car or perform some action
+            std::cout << "Collision detected with car " << i << "!\n";
+        }
         if (mycar[i].direct == 0)
         {
             mycar[i].objectPositionX += mycar[i].speed;
@@ -239,6 +257,8 @@ GLvoid drawScene()
 
             }
         }
+
+
     }
     
 
@@ -308,7 +328,7 @@ GLvoid drawScene()
     shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
     glDrawArrays(GL_TRIANGLES, 0, Tree);
     
-
+    
 
     glutSwapBuffers();
 }
