@@ -49,9 +49,10 @@ float rotateY = 0.f;
 
 struct Mycar {
     int direct = 0;
-    float size;
+    float size = 0.005;
     float speed = 0.01f;
     float objectPositionX = -0.5f;
+    float objectPositionZ;
 };
 
 Mycar mycar[10];
@@ -215,28 +216,32 @@ GLvoid drawScene()
 
     glm::mat4 vTransform = glm::mat4(1.0f);
     glm::vec3 cameraPos = glm::vec3(0, 0.2f, moveforward + 0.2);
-    glm::vec3 cameraDirection = glm::vec3(0, 0.0f, moveforward - 0.3);
+    glm::vec3 cameraDirection = glm::vec3(0, 0.0f, moveforward - 0.2);
     glm::vec3 cameraUp = glm::vec3(0.0f, 2.0f, 0.0f);
     vTransform = glm::lookAt(cameraPos, cameraDirection, cameraUp);
     shaderID.setMat4("viewTransform", vTransform);
     shaderID.setVec3("viewPos", 0, 0, 0);
 
-    // Get the bounding box for bbyongari
-    glm::vec3 bbyongariMin = glm::vec3(0.0f, 0.0f, moveforward - 0.05f);
-    glm::vec3 bbyongariMax = glm::vec3(0.05f, 0.05f, moveforward + 0.05f);
+    
 
     // ÀÚµ¿Â÷
     for (int i = 0; i < 5; ++i)
     {
+        
+        glm::vec3 carMin = glm::vec3(-mycar[i].objectPositionX - 0.05f, -0.05f, mycar[i].objectPositionZ -0.01f);
+        glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.05f, 0.05f, mycar[i].objectPositionZ + 0.01f);
 
-        glm::vec3 carMin = glm::vec3(-mycar[i].objectPositionX - 0.005f, -0.005f, -0.005f);
-        glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.005f, 0.005f, 0.005f);
+        // Get the bounding box for bbyongari
+        glm::vec3 bbyongariMin = glm::vec3(-0.02f, 0.0f, moveforward - 0.05f);
+        glm::vec3 bbyongariMax = glm::vec3(0.02f, 0.05f, moveforward + 0.05f);
+
 
         // Check for collision between the current car[i] and bbyongari
         if (checkCollision(carMin, carMax, bbyongariMin, bbyongariMax)) {
             // Collision occurred, handle it as needed
             // For example, stop the car or perform some action
             std::cout << "Collision detected with car " << i << "!\n";
+            mycar[i].speed = 0.0f;
         }
         if (mycar[i].direct == 0)
         {
@@ -266,9 +271,9 @@ GLvoid drawScene()
     glBindTexture(GL_TEXTURE_2D, Car_Load.texture);
     glBindVertexArray(VAO_Car);
     glm::mat4 car1Transform = glm::mat4(1.0f);
-    car1Transform = glm::translate(car1Transform, glm::vec3(-mycar[0].objectPositionX, 0.0f, 0.0f));  // Translate object
+    car1Transform = glm::translate(car1Transform, glm::vec3(-mycar[0].objectPositionX, 0.0f, mycar[0].objectPositionZ));  // Translate object
     car1Transform = glm::rotate(car1Transform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-    car1Transform = glm::scale(car1Transform, glm::vec3(0.005f, 0.005f, 0.005f));
+    car1Transform = glm::scale(car1Transform, glm::vec3(mycar[0].size, mycar[0].size, mycar[0].size));
     car1Transform = glm::rotate(car1Transform, glm::radians(rotateX), glm::vec3(1, 0, 0));
     car1Transform = glm::rotate(car1Transform, glm::radians(rotateY), glm::vec3(0, 1, 0));
     shaderID.setMat4("modelTransform", car1Transform);
@@ -277,12 +282,13 @@ GLvoid drawScene()
 
     mycar[1].direct = 1;
     mycar[1].speed = 0.02;
+    mycar[1].objectPositionZ = 0.5f;
     glBindTexture(GL_TEXTURE_2D, Car_Load.texture);
     glBindVertexArray(VAO_Car);
     glm::mat4 car2Transform = glm::mat4(1.0f);
-    car2Transform = glm::translate(car2Transform, glm::vec3(-mycar[1].objectPositionX, 0.0f, 0.5f));  // Translate object
+    car2Transform = glm::translate(car2Transform, glm::vec3(-mycar[1].objectPositionX, 0.0f, mycar[1].objectPositionZ));  // Translate object
     car2Transform = glm::rotate(car2Transform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-    car2Transform = glm::scale(car2Transform, glm::vec3(0.005f, 0.005f, 0.005f));
+    car2Transform = glm::scale(car2Transform, glm::vec3(mycar[1].size, mycar[1].size, mycar[1].size));
     car2Transform = glm::rotate(car2Transform, glm::radians(rotateX), glm::vec3(1, 0, 0));
     car2Transform = glm::rotate(car2Transform, glm::radians(rotateY), glm::vec3(0, 1, 0));
     shaderID.setMat4("modelTransform", car2Transform);
