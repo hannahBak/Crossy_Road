@@ -2,7 +2,6 @@
 #define MAP_SIZE 10.f
 
 
-
 #include "shader.h"
 #include "load_OBJ.h"
 
@@ -18,7 +17,6 @@ GLint SantaChicken = SantaChicken_Load.loadObj("santa_chicken.obj");
 
 Objectload Tree_Load;
 GLint Tree = Tree_Load.loadObj("tree.obj");
-
 
 
 
@@ -145,7 +143,6 @@ void InitBuffer() {
 
 }
 
-
 GLvoid drawScene();
 GLvoid KeyBoard(unsigned char key, int x, int y);
 GLvoid SpecialKeyBoard(int key, int x, int y);
@@ -202,7 +199,7 @@ GLvoid drawScene()
 
     // 그리기 로직 (이전 코드와 동일)
 
-//조명
+    //조명
     shaderID.setVec3("lightPos", 0.f, 3.f, 0.f);
     shaderID.setVec3("lightColor", 3.f, 3.f, 3.f);
 
