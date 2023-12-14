@@ -19,7 +19,6 @@ Objectload Tree_Load;
 GLint Tree = Tree_Load.loadObj("tree.obj");
 
 
-
 void initTextures() {
 
     Car_Load.InitTexture("Car_TEX.jpg");
@@ -27,7 +26,9 @@ void initTextures() {
     SantaChicken_Load.InitTexture("santa_chicken_C.jpg");
     Tree_Load.InitTexture("tree_C.jpg");
 
+    
 }
+
 
 GLuint VAO_Car, VBO_Car_VERTEX, VBO_Car_NORMAL, VBO_Car_UV;
 GLuint VAO_Bbyongari, VBO_Bbyongari_VERTEX, VBO_Bbyongari_NORMAL, VBO_Bbyongari_UV;
@@ -159,7 +160,6 @@ void InitBuffer() {
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     glEnableVertexAttribArray(2);
 
-   
 }
 
 GLvoid drawScene();
@@ -199,8 +199,13 @@ int main(int argc, char** argv)
 
 bool isGameOver = false; // Global variable to track game state
 
+int windowWidth = 800;
+int windowHeight = 800;
 
+void drawGameOverScreen() {
 
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+}
 
 bool checkCollision(const glm::vec3& min1, const glm::vec3& max1, const glm::vec3& min2, const glm::vec3& max2) {
     return (min1.x <= max2.x && max1.x >= min2.x) &&
@@ -221,132 +226,136 @@ GLvoid drawScene()
     glEnable(GL_CULL_FACE);
 
    
+    if (isGameOver) {
+        drawGameOverScreen();
+    }
+    else {
 
-    // 그리기 로직 (이전 코드와 동일)
 
     //조명
-    shaderID.setVec3("lightPos", 0.f, 3.f, 0.f);
-    shaderID.setVec3("lightColor", 3.f, 3.f, 3.f);
+        shaderID.setVec3("lightPos", 0.f, 3.f, 0.f);
+        shaderID.setVec3("lightColor", 3.f, 3.f, 3.f);
 
-    //투영 변환
-    glm::mat4 pTransform = glm::mat4(1.0f);
-    pTransform = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 50.0f);
-    shaderID.setMat4("projectionTransform", pTransform);
+        //투영 변환
+        glm::mat4 pTransform = glm::mat4(1.0f);
+        pTransform = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 50.0f);
+        shaderID.setMat4("projectionTransform", pTransform);
 
 
-    glm::mat4 vTransform = glm::mat4(1.0f);
-    glm::vec3 cameraPos = glm::vec3(moveRight, 0.2f, moveforward + 0.2);
-    glm::vec3 cameraDirection = glm::vec3(moveRight, 0.0f, moveforward - 0.2);
-    glm::vec3 cameraUp = glm::vec3(0.0f, 2.0f, 0.0f);
-    vTransform = glm::lookAt(cameraPos, cameraDirection, cameraUp);
-    shaderID.setMat4("viewTransform", vTransform);
-    shaderID.setVec3("viewPos", 0, 0, 0);
+        glm::mat4 vTransform = glm::mat4(1.0f);
+        glm::vec3 cameraPos = glm::vec3(moveRight, 0.2f, moveforward + 0.2);
+        glm::vec3 cameraDirection = glm::vec3(moveRight, 0.0f, moveforward - 0.2);
+        glm::vec3 cameraUp = glm::vec3(0.0f, 2.0f, 0.0f);
+        vTransform = glm::lookAt(cameraPos, cameraDirection, cameraUp);
+        shaderID.setMat4("viewTransform", vTransform);
+        shaderID.setVec3("viewPos", 0, 0, 0);
 
-    
 
-    // car0
-    for (int i = 0; i < numberOfCars; ++i) {
-        // 차량 설정 적용
-        mycar[i].direct = carSettings[i].direct;
-        mycar[i].speed = carSettings[i].speed;
-        mycar[i].objectPositionZ = carSettings[i].objectPositionZ;
 
-        // 텍스처와 VAO 바인딩
-        glBindTexture(GL_TEXTURE_2D, Car_Load.texture);
-        glBindVertexArray(VAO_Car);
+        // car0
+        for (int i = 0; i < numberOfCars; ++i) {
+            // 차량 설정 적용
+            mycar[i].direct = carSettings[i].direct;
+            mycar[i].speed = carSettings[i].speed;
+            mycar[i].objectPositionZ = carSettings[i].objectPositionZ;
 
-        // 차량 변환
-        glm::mat4 carTransform = glm::mat4(1.0f);
-        carTransform = glm::translate(carTransform, glm::vec3(-mycar[i].objectPositionX, 0.0f, mycar[i].objectPositionZ));
-        carTransform = glm::rotate(carTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-        carTransform = glm::scale(carTransform, glm::vec3(mycar[i].size, mycar[i].size, mycar[i].size));
-        carTransform = glm::rotate(carTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
-        carTransform = glm::rotate(carTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+            // 텍스처와 VAO 바인딩
+            glBindTexture(GL_TEXTURE_2D, Car_Load.texture);
+            glBindVertexArray(VAO_Car);
 
-        // 셰이더 설정 및 렌더링
-        shaderID.setMat4("modelTransform", carTransform);
+            // 차량 변환
+            glm::mat4 carTransform = glm::mat4(1.0f);
+            carTransform = glm::translate(carTransform, glm::vec3(-mycar[i].objectPositionX, 0.0f, mycar[i].objectPositionZ));
+            carTransform = glm::rotate(carTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+            carTransform = glm::scale(carTransform, glm::vec3(mycar[i].size, mycar[i].size, mycar[i].size));
+            carTransform = glm::rotate(carTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+            carTransform = glm::rotate(carTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+
+            // 셰이더 설정 및 렌더링
+            shaderID.setMat4("modelTransform", carTransform);
+            shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+            glDrawArrays(GL_TRIANGLES, 0, Car);
+
+
+            glm::vec3 carMin = glm::vec3(-mycar[i].objectPositionX - 0.05f, -0.05f, mycar[i].objectPositionZ - 0.01f);
+            glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.05f, 0.05f, mycar[i].objectPositionZ + 0.01f);
+
+            // Get the bounding box for bbyongari
+            glm::vec3 bbyongariMin = glm::vec3(-0.02f, 0.0f, moveforward - 0.05f);
+            glm::vec3 bbyongariMax = glm::vec3(0.02f, 0.05f, moveforward + 0.05f);
+
+
+            // Check for collision between the current car[i] and bbyongari
+            if (checkCollision(carMin, carMax, bbyongariMin, bbyongariMax)) {
+                // Collision occurred, handle it as needed
+                // For example, stop the car or perform some action
+                std::cout << "Collision detected with car " << i << "!\n";
+                mycar[i].speed = 0.0f;
+                isGameOver = true;
+            }
+            if (mycar[i].direct == 0)
+            {
+                mycar[i].objectPositionX += mycar[i].speed;
+                if (mycar[i].objectPositionX > 0.5)
+                {
+                    mycar[i].objectPositionX = -1.0;
+
+                }
+            }
+
+            else
+            {
+                mycar[i].objectPositionX -= mycar[i].speed;
+                if (mycar[i].objectPositionX < -0.5)
+                {
+                    mycar[i].objectPositionX = 1.0;
+
+                }
+            }
+
+        }
+
+        // 병아리
+        glBindTexture(GL_TEXTURE_2D, Bbyongari_Load.texture);
+        glBindVertexArray(VAO_Bbyongari);
+        glm::mat4 BbyongariTransform = glm::mat4(1.0f);
+        BbyongariTransform = glm::translate(BbyongariTransform, glm::vec3(moveRight, 0.0f, moveforward));  // Translate object
+        BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(-90.0f), glm::vec3(0, 1, 0));
+        BbyongariTransform = glm::scale(BbyongariTransform, glm::vec3(0.05f, 0.05f, 0.05f));
+        BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+        BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+        shaderID.setMat4("modelTransform", BbyongariTransform);
         shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-        glDrawArrays(GL_TRIANGLES, 0, Car);
+        glDrawArrays(GL_TRIANGLES, 0, Bbyongari);
 
+        // 산타치킨
+        glBindTexture(GL_TEXTURE_2D, SantaChicken_Load.texture);
+        glBindVertexArray(VAO_SantaChicken);
+        glm::mat4 SantaChickenTransform = glm::mat4(1.0f);
+        SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.1f, 0.0f, -0.5f));  // Translate object
+        SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+        SantaChickenTransform = glm::scale(SantaChickenTransform, glm::vec3(0.05f, 0.05f, 0.05f));
+        SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+        SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+        shaderID.setMat4("modelTransform", SantaChickenTransform);
+        shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+        glDrawArrays(GL_TRIANGLES, 0, SantaChicken);
 
-        glm::vec3 carMin = glm::vec3(-mycar[i].objectPositionX - 0.05f, -0.05f, mycar[i].objectPositionZ - 0.01f);
-        glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.05f, 0.05f, mycar[i].objectPositionZ + 0.01f);
+        // 트리
+        glBindTexture(GL_TEXTURE_2D, Tree_Load.texture);
+        glBindVertexArray(VAO_Tree);
+        glm::mat4 TreeTransform = glm::mat4(1.0f);
+        TreeTransform = glm::translate(TreeTransform, glm::vec3(0.1f, 0.0f, 0.0f));  // Translate object
+        TreeTransform = glm::rotate(TreeTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+        TreeTransform = glm::scale(TreeTransform, glm::vec3(0.05f, 0.05f, 0.05f));
+        TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+        TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+        shaderID.setMat4("modelTransform", TreeTransform);
+        shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+        glDrawArrays(GL_TRIANGLES, 0, Tree);
 
-        // Get the bounding box for bbyongari
-        glm::vec3 bbyongariMin = glm::vec3(-0.02f, 0.0f, moveforward - 0.05f);
-        glm::vec3 bbyongariMax = glm::vec3(0.02f, 0.05f, moveforward + 0.05f);
-
-
-        // Check for collision between the current car[i] and bbyongari
-        if (checkCollision(carMin, carMax, bbyongariMin, bbyongariMax)) {
-            // Collision occurred, handle it as needed
-            // For example, stop the car or perform some action
-            std::cout << "Collision detected with car " << i << "!\n";
-            mycar[i].speed = 0.0f;
-        }
-        if (mycar[i].direct == 0)
-        {
-            mycar[i].objectPositionX += mycar[i].speed;
-            if (mycar[i].objectPositionX > 0.5)
-            {
-                mycar[i].objectPositionX = -1.0;
-
-            }
-        }
-
-        else
-        {
-            mycar[i].objectPositionX -= mycar[i].speed;
-            if (mycar[i].objectPositionX < -0.5)
-            {
-                mycar[i].objectPositionX = 1.0;
-
-            }
-        }
-        
+        glutSwapBuffers();
     }
-
-    // 병아리
-    glBindTexture(GL_TEXTURE_2D, Bbyongari_Load.texture);
-    glBindVertexArray(VAO_Bbyongari);
-    glm::mat4 BbyongariTransform = glm::mat4(1.0f);
-    BbyongariTransform = glm::translate(BbyongariTransform, glm::vec3(moveRight, 0.0f, moveforward));  // Translate object
-    BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(-90.0f), glm::vec3(0, 1, 0));
-    BbyongariTransform = glm::scale(BbyongariTransform, glm::vec3(0.05f, 0.05f, 0.05f));
-    BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
-    BbyongariTransform = glm::rotate(BbyongariTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
-    shaderID.setMat4("modelTransform", BbyongariTransform);
-    shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-    glDrawArrays(GL_TRIANGLES, 0, Bbyongari);
-
-    // 산타치킨
-    glBindTexture(GL_TEXTURE_2D, SantaChicken_Load.texture);
-    glBindVertexArray(VAO_SantaChicken);
-    glm::mat4 SantaChickenTransform = glm::mat4(1.0f);
-    SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.1f, 0.0f, -0.5f));  // Translate object
-    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-    SantaChickenTransform = glm::scale(SantaChickenTransform, glm::vec3(0.05f, 0.05f, 0.05f));
-    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
-    SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
-    shaderID.setMat4("modelTransform", SantaChickenTransform);
-    shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-    glDrawArrays(GL_TRIANGLES, 0, SantaChicken);
-
-    // 트리
-    glBindTexture(GL_TEXTURE_2D, Tree_Load.texture);
-    glBindVertexArray(VAO_Tree);
-    glm::mat4 TreeTransform = glm::mat4(1.0f);
-    TreeTransform = glm::translate(TreeTransform, glm::vec3(0.1f, 0.0f, 0.0f));  // Translate object
-    TreeTransform = glm::rotate(TreeTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-    TreeTransform = glm::scale(TreeTransform, glm::vec3(0.05f, 0.05f, 0.05f));
-    TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
-    TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
-    shaderID.setMat4("modelTransform", TreeTransform);
-    shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-    glDrawArrays(GL_TRIANGLES, 0, Tree);
-
-    glutSwapBuffers();
-
 }
 
 GLvoid Reshape(int w, int h)
