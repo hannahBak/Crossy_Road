@@ -18,6 +18,9 @@ GLint SantaChicken = SantaChicken_Load.loadObj("santa_chicken.obj");
 Objectload Tree_Load;
 GLint Tree = Tree_Load.loadObj("tree.obj");
 
+Objectload Floor1_Load;
+GLint Floor1 = Floor1_Load.loadObj("floor_r1.obj");
+
 
 void initTextures() {
 
@@ -25,15 +28,15 @@ void initTextures() {
     Bbyongari_Load.InitTexture("Bbyongari_C.jpg");
     SantaChicken_Load.InitTexture("santa_chicken_C.jpg");
     Tree_Load.InitTexture("tree_C.jpg");
-
-    
+    Floor1_Load.InitTexture("floor_r1_C.jpg");
 }
-
 
 GLuint VAO_Car, VBO_Car_VERTEX, VBO_Car_NORMAL, VBO_Car_UV;
 GLuint VAO_Bbyongari, VBO_Bbyongari_VERTEX, VBO_Bbyongari_NORMAL, VBO_Bbyongari_UV;
 GLuint VAO_SantaChicken, VBO_SantaChicken_VERTEX, VBO_SantaChicken_NORMAL, VBO_SantaChicken_UV;
 GLuint VAO_Tree, VBO_Tree_VERTEX, VBO_Tree_NORMAL, VBO_Tree_UV;
+GLuint VAO_Floor1, VBO_Floor1_VERTEX, VBO_Floor1_NORMAL, VBO_Floor1_UV;
+
 
 
 bool rotateXOn = false;
@@ -59,12 +62,12 @@ struct CarSettings {
     int direct;
 
 } carSettings[numberOfCars] = {
-    {0.03, 0.0, 0},   // car0 설정
-    {0.02, 0.1, 1},  // car1 설정
-    {0.015, 0.5, 0},  // car2 설정
-    {0.01, 0.8, 0},  // car3 설정
-    {0.035, 0.9, 0},  // car4 설정
-    {0.008, 1.0, 0},  // car5 설정
+    {0.03, -0.6, 0},   // car0 설정
+    {0.02, -0.3, 1},  // car1 설정
+    {0.015, -0.2, 0},  // car2 설정
+    {0.01, 0.7, 0},  // car3 설정
+    {0.035, 0.8, 0},  // car4 설정
+    {0.008, 0.9, 0},  // car5 설정
     {0.035, 1.3, 0},  // car6 설정
 };
 
@@ -160,6 +163,29 @@ void InitBuffer() {
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     glEnableVertexAttribArray(2);
 
+
+
+    // floor_1
+    glGenVertexArrays(1, &VAO_Floor1);
+    glBindVertexArray(VAO_Floor1);
+    //vertex
+    glGenBuffers(1, &VBO_Floor1_VERTEX);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Floor1_VERTEX);
+    glBufferData(GL_ARRAY_BUFFER, Floor1_Load.outvertex.size() * sizeof(glm::vec3), &Floor1_Load.outvertex[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    glEnableVertexAttribArray(0);
+    //normal
+    glGenBuffers(1, &VBO_Floor1_NORMAL);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Floor1_NORMAL);
+    glBufferData(GL_ARRAY_BUFFER, Floor1_Load.outnormal.size() * sizeof(glm::vec3), &Floor1_Load.outnormal[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    glEnableVertexAttribArray(1);
+    //uv
+    glGenBuffers(1, &VBO_Floor1_UV);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_Floor1_UV);
+    glBufferData(GL_ARRAY_BUFFER, Floor1_Load.outuv.size() * sizeof(glm::vec2), &Floor1_Load.outuv[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    glEnableVertexAttribArray(2);
 }
 
 GLvoid drawScene();
@@ -204,7 +230,52 @@ int windowHeight = 800;
 
 void drawGameOverScreen() {
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Set the color to white
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    // Load and display the "title.jpg" image (replace with your image file)
+    int width, height, channels;
+    unsigned char* image = stbi_load("title.jpg", &width, &height, &channels, STBI_rgb);
+
+    if (!image) {
+        // Handle error loading image
+        fprintf(stderr, "Error loading image\n");
+        glutSwapBuffers();
+        return;
+    }
+
+    // Generate texture ID
+    GLuint texture;
+    glGenTextures(1, &texture);
+
+    // Bind texture
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // Set texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Load image data to texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+
+    // Free image data
+    stbi_image_free(image);
+
+    // Draw a quad with the image
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f); glVertex2f(-1.0f, -1.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex2f(1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex2f(1.0f, 1.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex2f(-1.0f, 1.0f);
+    glEnd();
+
+    // Swap buffers to display the rendered image
+    glutSwapBuffers();
 }
 
 bool checkCollision(const glm::vec3& min1, const glm::vec3& max1, const glm::vec3& min2, const glm::vec3& max2) {
@@ -332,7 +403,7 @@ GLvoid drawScene()
         glBindTexture(GL_TEXTURE_2D, SantaChicken_Load.texture);
         glBindVertexArray(VAO_SantaChicken);
         glm::mat4 SantaChickenTransform = glm::mat4(1.0f);
-        SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.1f, 0.0f, -0.5f));  // Translate object
+        SantaChickenTransform = glm::translate(SantaChickenTransform, glm::vec3(0.1f, 0.0f, -1.0f));  // Translate object
         SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
         SantaChickenTransform = glm::scale(SantaChickenTransform, glm::vec3(0.05f, 0.05f, 0.05f));
         SantaChickenTransform = glm::rotate(SantaChickenTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
@@ -353,6 +424,19 @@ GLvoid drawScene()
         shaderID.setMat4("modelTransform", TreeTransform);
         shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
         glDrawArrays(GL_TRIANGLES, 0, Tree);
+
+        // 바닥
+        glBindTexture(GL_TEXTURE_2D, Floor1_Load.texture);
+        glBindVertexArray(VAO_Floor1);
+        glm::mat4 FloorTransform = glm::mat4(1.0f);
+        FloorTransform = glm::translate(FloorTransform, glm::vec3(0.0f, -0.1f, 0.0f));  // Translate object
+        FloorTransform = glm::rotate(FloorTransform, glm::radians(00.0f), glm::vec3(0, 1, 0));
+        FloorTransform = glm::scale(FloorTransform, glm::vec3(0.005f, 0.004f, 0.005f));
+        FloorTransform = glm::rotate(FloorTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+        FloorTransform = glm::rotate(FloorTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+        shaderID.setMat4("modelTransform", FloorTransform);
+        shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+        glDrawArrays(GL_TRIANGLES, 0, Floor1);
 
         glutSwapBuffers();
     }
