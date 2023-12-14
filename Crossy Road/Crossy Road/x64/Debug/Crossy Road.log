@@ -25,9 +25,9 @@ C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Cr
 C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(70,13): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(71,6): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(71,13): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(209,15): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(515,27): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(518,27): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
-C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(521,25): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(524,25): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(217,15): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(523,27): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(526,27): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(529,25): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\Crossy Road\main.cpp(532,25): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
   Crossy Road.vcxproj -> C:\3학년 2학기\컴퓨터그래픽스\프로젝트\Crossy_Road\Crossy_Road\Crossy Road\x64\Debug\Crossy Road.exe

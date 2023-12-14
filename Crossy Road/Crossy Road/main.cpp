@@ -68,19 +68,27 @@ struct CarSettings {
     {0.01, 0.7, 0},  // car3 설정
     {0.035, 0.8, 0},  // car4 설정
     {0.008, 0.9, 0},  // car5 설정
-    {0.035, 1.4, 0},  // car6 설정
+    {0.035, 1.4, 0}  // car6 설정
 };
 
 Mycar mycar[10];
 
-//지영
 struct TreeSettings {
     float positionX;
     float positionZ;
     float scale;
 } treeSettings[] = {
-    {0.0f, 0.0f, 0.05f},  // 첫 번째 나무 설정
-    {0.2f, 0.2f, 0.05f}  // 두 번째 나무 설정
+    {0.0f, 0.1f, 0.06f},  // 첫 번째 나무 설정
+    {0.2f, 0.2f, 0.06f},
+    {0.6f, 0.3f, 0.06f},
+    {0.3f, 0.3f, 0.06f},
+    {0.2f, 0.2f, 0.06f},
+    {0.8f, -0.4f, 0.06f},
+    {0.2f, 1.1f, 0.06f},
+    {-0.3f, 1.15f, 0.06f},
+    {-0.1f, 0.3f, 0.06f},
+    {-0.1f, -0.4f, 0.06f},
+    {-0.3f, -0.9f, 0.06f}
 };
 
 void InitBuffer() {
