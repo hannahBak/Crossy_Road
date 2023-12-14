@@ -62,13 +62,13 @@ struct CarSettings {
     int direct;
 
 } carSettings[numberOfCars] = {
-    {0.03, -0.6, 0},   // car0 설정
-    {0.02, -0.3, 1},  // car1 설정
-    {0.015, -0.2, 0},  // car2 설정
+    {0.03, -0.75, 0},   // car0 설정
+    {0.02, -0.2, 1},  // car1 설정
+    {0.015, -0.1, 0},  // car2 설정
     {0.01, 0.7, 0},  // car3 설정
     {0.035, 0.8, 0},  // car4 설정
     {0.008, 0.9, 0},  // car5 설정
-    {0.035, 1.3, 0},  // car6 설정
+    {0.035, 1.4, 0},  // car6 설정
 };
 
 Mycar mycar[10];
@@ -233,25 +233,21 @@ void drawGameOverScreen() {
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Set the color to white
-    glColor3f(1.0f, 1.0f, 1.0f);
+    // Enable texture mapping
+    glEnable(GL_TEXTURE_2D);
 
-    // Load and display the "title.jpg" image (replace with your image file)
+    // Load and display the image
     int width, height, channels;
     unsigned char* image = stbi_load("title.jpg", &width, &height, &channels, STBI_rgb);
-
     if (!image) {
-        // Handle error loading image
         fprintf(stderr, "Error loading image\n");
-        glutSwapBuffers();
+    
         return;
     }
 
-    // Generate texture ID
+    // Generate and bind texture
     GLuint texture;
     glGenTextures(1, &texture);
-
-    // Bind texture
     glBindTexture(GL_TEXTURE_2D, texture);
 
     // Set texture parameters
@@ -262,17 +258,22 @@ void drawGameOverScreen() {
 
     // Load image data to texture
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
-    // Free image data
     stbi_image_free(image);
 
-    // Draw a quad with the image
+    // Draw a textured quad
     glBegin(GL_QUADS);
-    glTexCoord2f(0.0f, 0.0f); glVertex2f(-1.0f, -1.0f);
-    glTexCoord2f(1.0f, 0.0f); glVertex2f(1.0f, -1.0f);
-    glTexCoord2f(1.0f, 1.0f); glVertex2f(1.0f, 1.0f);
-    glTexCoord2f(0.0f, 1.0f); glVertex2f(-1.0f, 1.0f);
+    glTexCoord2f(0.0f, 0.0f); glVertex2f(-100.0f, -100.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex2f(100.0f, -100.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex2f(100.0f, 100.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex2f(-100.0f, 100.0f);
     glEnd();
+
+
+    // Unbind texture
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    // Disable texture mapping
+    glDisable(GL_TEXTURE_2D);
 
     // Swap buffers to display the rendered image
     glutSwapBuffers();
@@ -284,7 +285,7 @@ bool checkCollision(const glm::vec3& min1, const glm::vec3& max1, const glm::vec
         (min1.z <= max2.z && max1.z >= min2.z);
 }
 
-float moveforward = 1.5f;
+float moveforward = 1.6f;
 float moveRight = 0.0f;
 
 GLvoid drawScene()
@@ -451,7 +452,21 @@ GLvoid KeyBoard(unsigned char key, int x, int y)
 {
     switch (key)
     {
+    case 'r':
+        // Reset the game state
+        isGameOver = false;
 
+        // Reset car positions
+        for (int i = 0; i < numberOfCars; ++i) {
+            mycar[i].objectPositionX = -0.5f;
+            mycar[i].objectPositionZ = carSettings[i].objectPositionZ;
+            mycar[i].speed = carSettings[i].speed;
+        }
+
+        // Reset player position
+        moveforward = 1.6f;
+        moveRight = 0.0f;
+        break;
     case 'p':
         
         break;
