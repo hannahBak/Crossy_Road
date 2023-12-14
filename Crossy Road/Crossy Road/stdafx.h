@@ -16,4 +16,3 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <SOIL.h> 
