@@ -62,7 +62,7 @@ struct CarSettings {
     int direct;
 
 } carSettings[numberOfCars] = {
-    {0.03, -0.75, 0},   // car0 설정
+    {0.025, -0.75, 0},   // car0 설정
     {0.02, -0.2, 1},  // car1 설정
     {0.015, -0.1, 0},  // car2 설정
     {0.01, 0.7, 0},  // car3 설정
@@ -72,6 +72,16 @@ struct CarSettings {
 };
 
 Mycar mycar[10];
+
+//지영
+struct TreeSettings {
+    float positionX;
+    float positionZ;
+    float scale;
+} treeSettings[] = {
+    {0.0f, 0.0f, 0.05f},  // 첫 번째 나무 설정
+    {0.2f, 0.2f, 0.05f}  // 두 번째 나무 설정
+};
 
 void InitBuffer() {
 
@@ -322,7 +332,19 @@ GLvoid drawScene()
         shaderID.setMat4("viewTransform", vTransform);
         shaderID.setVec3("viewPos", 0, 0, 0);
 
+        // 병아리의 충돌 박스
+        glm::vec3 bbyongariMin = glm::vec3(moveRight - 0.03f, -0.05f, moveforward - 0.03f);
+        glm::vec3 bbyongariMax = glm::vec3(moveRight + 0.03f, 0.05f, moveforward + 0.03f);
 
+        // 산타치킨의 충돌 박스
+        glm::vec3 santaChickenMin = glm::vec3(0.1f - 0.03f, -0.05f, -1.0f - 0.03f);
+        glm::vec3 santaChickenMax = glm::vec3(0.1f + 0.03f, 0.05f, -1.0f + 0.03f);
+
+        // 병아리와 산타치킨의 충돌 체크
+        if (checkCollision(bbyongariMin, bbyongariMax, santaChickenMin, santaChickenMax)) {
+            std::cout << "Collision detected with mom" << std::endl;
+            // 여기에 충돌 처리 로직을 추가할 수 있습니다.
+        }
 
         // car0
         for (int i = 0; i < numberOfCars; ++i) {
@@ -413,18 +435,25 @@ GLvoid drawScene()
         shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
         glDrawArrays(GL_TRIANGLES, 0, SantaChicken);
 
-        // 트리
-        glBindTexture(GL_TEXTURE_2D, Tree_Load.texture);
-        glBindVertexArray(VAO_Tree);
-        glm::mat4 TreeTransform = glm::mat4(1.0f);
-        TreeTransform = glm::translate(TreeTransform, glm::vec3(0.1f, 0.0f, 0.0f));  // Translate object
-        TreeTransform = glm::rotate(TreeTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
-        TreeTransform = glm::scale(TreeTransform, glm::vec3(0.05f, 0.05f, 0.05f));
-        TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
-        TreeTransform = glm::rotate(TreeTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
-        shaderID.setMat4("modelTransform", TreeTransform);
-        shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
-        glDrawArrays(GL_TRIANGLES, 0, Tree);
+        //지영
+        for (int i = 0; i < sizeof(treeSettings) / sizeof(TreeSettings); ++i) {
+            // 텍스처와 VAO 바인딩
+            glBindTexture(GL_TEXTURE_2D, Tree_Load.texture);
+            glBindVertexArray(VAO_Tree);
+
+            // 나무 변환
+            glm::mat4 treeTransform = glm::mat4(1.0f);
+            treeTransform = glm::translate(treeTransform, glm::vec3(treeSettings[i].positionX, 0.0f, treeSettings[i].positionZ));
+            treeTransform = glm::scale(treeTransform, glm::vec3(treeSettings[i].scale, treeSettings[i].scale, treeSettings[i].scale));
+            treeTransform = glm::rotate(treeTransform, glm::radians(90.0f), glm::vec3(0, 1, 0));
+            treeTransform = glm::rotate(treeTransform, glm::radians(rotateX), glm::vec3(1, 0, 0));
+            treeTransform = glm::rotate(treeTransform, glm::radians(rotateY), glm::vec3(0, 1, 0));
+
+            // 셰이더 설정 및 렌더링
+            shaderID.setMat4("modelTransform", treeTransform);
+            shaderID.setVec3("objectColor", 1.f, 1.f, 1.f);
+            glDrawArrays(GL_TRIANGLES, 0, Tree);
+        }
 
         // 바닥
         glBindTexture(GL_TEXTURE_2D, Floor1_Load.texture);
