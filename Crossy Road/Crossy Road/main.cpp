@@ -68,13 +68,13 @@ struct CarSettings {
     int direct;
 
 } carSettings[numberOfCars] = {
-    {0.025, -0.75, 0},   // car0 설정
-    {0.02, -0.2, 1},  // car1 설정
-    {0.015, -0.1, 0},  // car2 설정
-    {0.01, 0.7, 0},  // car3 설정
-    {0.035, 0.8, 0},  // car4 설정
-    {0.008, 0.9, 0},  // car5 설정
-    {0.035, 1.4, 0}  // car6 설정
+    {0.002, -0.75, 0},   // car0 설정
+    {0.002, -0.2, 1},  // car1 설정
+    {0.0015, -0.1, 0},  // car2 설정
+    {0.001, 0.7, 0},  // car3 설정
+    {0.0035, 0.8, 0},  // car4 설정
+    {0.0008, 0.9, 0},  // car5 설정
+    {0.005, 1.4, 0}  // car6 설정
 };
 
 Mycar mycar[10];
@@ -585,12 +585,12 @@ GLvoid drawScene()
                 glDrawArrays(GL_TRIANGLES, 0, Car);
 
 
-                glm::vec3 carMin = glm::vec3(-mycar[i].objectPositionX - 0.05f, -0.05f, mycar[i].objectPositionZ - 0.01f);
-                glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.05f, 0.05f, mycar[i].objectPositionZ + 0.01f);
+                glm::vec3 carMin = glm::vec3(-mycar[i].objectPositionX - 0.03f, -0.05f, mycar[i].objectPositionZ - 0.01f);
+                glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.03f, 0.05f, mycar[i].objectPositionZ + 0.01f);
 
                 // Get the bounding box for bbyongari
-                glm::vec3 bbyongariMin = glm::vec3(-moveRight - 0.05f, 0.0f, moveforward - 0.05f);
-                glm::vec3 bbyongariMax = glm::vec3(-moveRight + 0.05f, 0.05f, moveforward + 0.05f);
+                glm::vec3 bbyongariMin = glm::vec3(-moveRight - 0.01f, 0.0f, moveforward - 0.01f);
+                glm::vec3 bbyongariMax = glm::vec3(-moveRight + 0.01f, 0.05f, moveforward + 0.01f);
 
 
                 // Check for collision between the current car[i] and bbyongari
