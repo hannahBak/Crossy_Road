@@ -353,8 +353,8 @@ GLvoid drawScene()
             glm::vec3 carMax = glm::vec3(-mycar[i].objectPositionX + 0.05f, 0.05f, mycar[i].objectPositionZ + 0.01f);
 
             // Get the bounding box for bbyongari
-            glm::vec3 bbyongariMin = glm::vec3(-0.02f, 0.0f, moveforward - 0.05f);
-            glm::vec3 bbyongariMax = glm::vec3(0.02f, 0.05f, moveforward + 0.05f);
+            glm::vec3 bbyongariMin = glm::vec3(-moveRight - 0.05f, 0.0f, moveforward - 0.05f);
+            glm::vec3 bbyongariMax = glm::vec3(-moveRight + 0.05f, 0.05f, moveforward + 0.05f);
 
 
             // Check for collision between the current car[i] and bbyongari
@@ -385,6 +385,20 @@ GLvoid drawScene()
                 }
             }
 
+        }
+
+        // 병아리의 충돌 박스
+        glm::vec3 bbyongariMin = glm::vec3(moveRight - 0.03f, -0.05f, moveforward - 0.03f);
+        glm::vec3 bbyongariMax = glm::vec3(moveRight + 0.03f, 0.05f, moveforward + 0.03f);
+
+        // 산타치킨의 충돌 박스
+        glm::vec3 santaChickenMin = glm::vec3(0.1f - 0.03f, -0.05f, -1.0f - 0.03f);
+        glm::vec3 santaChickenMax = glm::vec3(0.1f + 0.03f, 0.05f, -1.0f + 0.03f);
+        
+        // 병아리와 산타치킨의 충돌 체크
+        if (checkCollision(bbyongariMin, bbyongariMax, santaChickenMin, santaChickenMax)) {
+            std::cout << "Collision detected with mom" << std::endl;
+            // 여기에 충돌 처리 로직을 추가할 수 있습니다.
         }
 
         // 병아리

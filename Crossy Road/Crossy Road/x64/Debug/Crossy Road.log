@@ -18,8 +18,8 @@ C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(70,13): w
 C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(71,6): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(71,13): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(199,15): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(486,27): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(489,27): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(492,25): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(495,25): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(500,27): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(503,27): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(506,25): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\Crossy Road\main.cpp(509,25): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
   Crossy Road.vcxproj -> C:\Users\Hannah\Documents\Crossy_Road\Crossy Road\x64\Debug\Crossy Road.exe
